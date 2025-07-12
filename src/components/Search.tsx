@@ -53,22 +53,22 @@ export class Search extends Component<Props, State> {
 
   render() {
     return (
-      <div className="flex items-center bg-white rounded-md p-4 shadow-md max-w-lg mx-auto mt-6">
+      <div className="flex w-full max-w-3xl mx-auto mt-8 shadow-lg rounded-md overflow-hidden">
         <input
           type="text"
           value={this.state.searchTerm}
           onChange={this.handleInputChange}
           onKeyDown={this.handleKeyDown}
           placeholder="Search movies..."
-          className="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow border-none px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={this.handleSearch}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md flex items-center transition"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 text-lg font-semibold transition"
           aria-label="Search movies"
         >
-          <SearchIcon className="w-5 h-5" />
-          <span className="ml-2">Search</span>
+          <SearchIcon className="w-5 h-5 inline-block mr-2" />
+          Search
         </button>
       </div>
     );
