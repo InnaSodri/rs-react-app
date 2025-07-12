@@ -79,7 +79,7 @@ const App: React.FC = () => {
             Movies Search
           </h1>
           <p className="app-subtitle">
-            Search for your favorite movies or browse popular titles
+            Search for your favorite movies or browse popular titles — built with React Class Components and TheMovieDB API
           </p>
         </header>
 

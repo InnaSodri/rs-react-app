@@ -39,20 +39,35 @@ const Card: React.FC<Props> = ({ movie }) => {
 
       {/* Content */}
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">{movie.title}</h3>
+        <h3
+          className="
+            text-lg font-extrabold text-blue-700 mb-2 line-clamp-2
+            hover:text-blue-900 cursor-pointer
+            transition-colors duration-300
+            drop-shadow-sm
+          "
+        >
+          {movie.title}
+        </h3>
 
         <p className="text-sm text-gray-600 mb-4 line-clamp-3">
           {movie.overview || 'No description available.'}
         </p>
 
         {/* Meta Info */}
-        <div className="mt-auto flex justify-between items-center text-sm text-gray-500">
+        <div className="mt-auto flex justify-between items-center text-sm text-gray-700">
           <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
+            <Calendar
+              className="w-5 h-5"
+              style={{ stroke: '#3b82f6' }} // Tailwind blue-500 hex
+            />
             <span>{releaseYear}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-500" />
+            <Star
+              className="w-5 h-5"
+              style={{ stroke: '#fbbf24' }} // Tailwind yellow-400 hex
+            />
             <span>{movie.vote_average.toFixed(1)}</span>
           </div>
         </div>

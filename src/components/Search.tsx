@@ -16,55 +16,59 @@ export class Search extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    // Load saved search term or use initialValue
+    // Load saved term from localStorage or use initialValue prop or empty string
     const savedTerm = localStorage.getItem(this.STORAGE_KEY) || '';
     this.state = {
       searchTerm: props.initialValue || savedTerm,
     };
+
+    // Bind handlers
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidMount() {
+    // Perform search if there is a saved or initial term
     if (this.state.searchTerm) {
       this.props.onSearch(this.state.searchTerm);
     }
   }
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({ searchTerm: e.target.value });
-  };
+  }
 
-  handleSearch = () => {
+  handleSearch() {
     const term = this.state.searchTerm.trim();
     localStorage.setItem(this.STORAGE_KEY, term);
     this.props.onSearch(term);
-  };
+  }
 
-  handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {
       this.handleSearch();
     }
-  };
+  }
 
   render() {
     return (
-      <div style={{ padding: 16, backgroundColor: '#fff', borderRadius: 8 }}>
+      <div className="flex items-center bg-white rounded-md p-4 shadow-md max-w-lg mx-auto mt-6">
         <input
           type="text"
           value={this.state.searchTerm}
           onChange={this.handleInputChange}
-          onKeyPress={this.handleKeyPress}
+          onKeyDown={this.handleKeyDown}
           placeholder="Search movies..."
-          style={{
-            width: '70%',
-            padding: '8px',
-            borderRadius: 4,
-            border: '1px solid #ccc',
-            marginRight: 8,
-          }}
+          className="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button onClick={this.handleSearch} style={{ padding: '8px 16px' }}>
-          <SearchIcon style={{ width: 16, height: 16, verticalAlign: 'middle' }} />
-          <span style={{ marginLeft: 6 }}>Search</span>
+        <button
+          onClick={this.handleSearch}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md flex items-center transition"
+          aria-label="Search movies"
+        >
+          <SearchIcon className="w-5 h-5" />
+          <span className="ml-2">Search</span>
         </button>
       </div>
     );
