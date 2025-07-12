@@ -1,5 +1,6 @@
 import React from 'react';
-import { Star, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
+import './Card.css';
 
 interface Movie {
   id: number;
@@ -26,50 +27,29 @@ const Card: React.FC<Props> = ({ movie }) => {
     : 'TBA';
 
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 overflow-hidden flex flex-col">
+    <div className="card">
       {/* Image */}
-      <div className="aspect-[2/3] bg-gray-100">
+      <div className="card-image">
         <img
           src={getImageUrl(movie.poster_path)}
           alt={`Poster of ${movie.title}`}
           loading="lazy"
-          className="w-full h-full object-cover"
         />
+        <span className="vote-badge">⭐ {movie.vote_average.toFixed(1)}</span>
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-grow">
-        <h3
-          className="
-            text-lg font-extrabold text-blue-700 mb-2 line-clamp-2
-            hover:text-blue-900 cursor-pointer
-            transition-colors duration-300
-            drop-shadow-sm
-          "
-        >
-          {movie.title}
-        </h3>
+      <div className="card-content">
+        <h3 className="card-title">{movie.title}</h3>
 
-        <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+        <p className="card-overview">
           {movie.overview || 'No description available.'}
         </p>
 
         {/* Meta Info */}
-        <div className="mt-auto flex justify-between items-center text-sm text-gray-700">
-          <div className="flex items-center gap-1">
-            <Calendar
-              className="w-5 h-5"
-              style={{ stroke: '#3b82f6' }} // Tailwind blue-500 hex
-            />
-            <span>{releaseYear}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Star
-              className="w-5 h-5"
-              style={{ stroke: '#fbbf24' }} // Tailwind yellow-400 hex
-            />
-            <span>{movie.vote_average.toFixed(1)}</span>
-          </div>
+        <div className="card-meta">
+          <Calendar />
+          <span className="release-year">{releaseYear}</span>
         </div>
       </div>
     </div>

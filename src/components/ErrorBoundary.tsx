@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './ErrorBoundary.css';
 
 interface Props {
   children: React.ReactNode;
@@ -15,6 +16,10 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error('Error caught by ErrorBoundary:', error, info);
+  }
+
   handleReset = () => {
     this.setState({ hasError: false });
   };
@@ -22,9 +27,11 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div>
+        <div className="error-boundary-container">
           <h2>Something went wrong.</h2>
-          <button onClick={this.handleReset}>Try Again</button>
+          <button className="error-boundary-button" onClick={this.handleReset}>
+            Try Again
+          </button>
         </div>
       );
     }
@@ -32,4 +39,3 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-

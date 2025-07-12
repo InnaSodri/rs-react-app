@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Card  from './Card';
+import Card from './Card';
 import { Loading } from './Loading';
 import { ErrorMessage } from './ErrorMessage';
+import './Results.css';
 
 interface Movie {
   id: number;
@@ -32,7 +33,7 @@ export class Results extends Component<Props> {
 
     if (movies.length === 0) {
       return (
-        <div>
+        <div className="results-empty">
           <p>No movies found.</p>
           <p>Try searching for a different movie title.</p>
         </div>
@@ -40,11 +41,13 @@ export class Results extends Component<Props> {
     }
 
     return (
-      <div>
-        <h2>Search Results ({movies.length})</h2>
-        <div>
+      <div className="results-container">
+        <h2 className="results-title">Search Results ({movies.length})</h2>
+        <div className="results-scroller">
           {movies.map((movie) => (
-            <Card key={movie.id} movie={movie} />
+            <div key={movie.id} className="results-item">
+              <Card movie={movie} />
+            </div>
           ))}
         </div>
       </div>

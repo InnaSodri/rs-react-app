@@ -5,7 +5,6 @@ import { Search } from './components/Search';
 import { Results } from './components/Results';
 import './App.css';
 
-// Movie type - structure of movie data
 interface Movie {
   id: number;
   title: string;
@@ -15,7 +14,6 @@ interface Movie {
   vote_average: number;
 }
 
-// API response type
 interface MoviesResponse {
   results: Movie[];
 }
@@ -30,12 +28,11 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [shouldThrowError, setShouldThrowError] = useState<boolean>(false);
 
-  // Load popular movies initially
   useEffect(() => {
     fetchMovies('');
   }, []);
 
-  const fetchMovies = async (term: string) => {
+  const fetchMovies = async (term: string): Promise<void> => {
     setLoading(true);
     setError(null);
     setSearchTerm(term);
@@ -46,10 +43,7 @@ const App: React.FC = () => {
         : `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=1`;
 
       const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const data: MoviesResponse = await response.json();
 
@@ -75,7 +69,7 @@ const App: React.FC = () => {
       <div className="app-container">
         <header className="app-header">
           <h1 className="app-title">
-            <Film className="w-8 h-8 text-blue-600" />
+            <Film className="film-icon" />
             Movies Search
           </h1>
           <p className="app-subtitle">
