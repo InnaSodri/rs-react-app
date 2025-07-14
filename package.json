@@ -4,12 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+<<<<<<< HEAD
+  "prepare": "husky install",
+  "dev": "vite",
+  "build": "tsc -b && vite build",
+  "lint": "eslint .",
+  "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
+  "preview": "vite preview",
+  "format:fix": "prettier --write ."
+},
+=======
+    "prepare": "husky install",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
+    "preview": "vite preview",
+    "format:fix": "prettier --write ."
   },
+>>>>>>> 1787745 (chore: add Husky pre-commit hook with lint-staged)
   "dependencies": {
+    "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -27,9 +42,24 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"
+  },
+  "lint-staged": {
+<<<<<<< HEAD
+  "*.{js,ts,jsx,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ]
+}
+=======
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
+>>>>>>> 1787745 (chore: add Husky pre-commit hook with lint-staged)
 }
