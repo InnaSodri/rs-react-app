@@ -40,15 +40,19 @@ export class App extends Component<Record<string, never>, State> {
     this.fetchMovies('');
   }
 
+  private buildUrl(term: string): string {
+    return term.trim()
+      ? `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(term)}&page=1`
+      : `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=1`;
+  }
+
   fetchMovies = async (term: string) => {
     this.setState({ loading: true, error: null, searchTerm: term });
 
     try {
-      const url = term.trim()
-        ? `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(term)}&page=1`
-        : `${BASE_URL}/movie/popular?api_key=${API_KEY}&page=1`;
-
+      const url = this.buildUrl(term);
       const response = await fetch(url);
+
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -58,11 +62,10 @@ export class App extends Component<Record<string, never>, State> {
         throw new Error(`No movies found for "${term}"`);
       }
 
-      this.setState({ movies: data.results });
+      this.setState({ movies: data.results, error: null });
     } catch (err) {
       this.setState({
-        error:
-          err instanceof Error ? err.message : 'An unexpected error occurred',
+        error: err instanceof Error ? err.message : 'Unexpected error',
         movies: [],
       });
     } finally {
@@ -70,7 +73,7 @@ export class App extends Component<Record<string, never>, State> {
     }
   };
 
-  handleTestError = () => {
+  handleTestError = (): void => {
     this.setState({ shouldThrowError: true });
   };
 
@@ -82,7 +85,7 @@ export class App extends Component<Record<string, never>, State> {
     }
 
     return (
-      <>
+      <div>
         <div>
           <a href="https://vite.dev" target="_blank" rel="noreferrer">
             <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -91,10 +94,11 @@ export class App extends Component<Record<string, never>, State> {
             <img src={reactLogo} className="logo react" alt="React logo" />
           </a>
         </div>
+
         <h1>Vite + React</h1>
         <div className="card">
           <ErrorBoundary>
-            <div className="app-container">
+            <main className="app-container">
               <header className="app-header">
                 <h1 className="app-title">
                   <Film className="film-icon" />
@@ -122,13 +126,13 @@ export class App extends Component<Record<string, never>, State> {
               <p>
                 Edit <code>src/App.tsx</code> and save to test HMR
               </p>
-            </div>
+            </main>
           </ErrorBoundary>
         </div>
         <p className="read-the-docs">
           Click on the Vite and React logos to learn more
         </p>
-      </>
+      </div>
     );
   }
 }
