@@ -30,7 +30,6 @@ export class Card extends Component<Props> {
 
     return (
       <div className="card">
-        {/* Image */}
         <div className="card-image">
           <img
             src={this.getImageUrl(movie.poster_path)}
@@ -40,7 +39,6 @@ export class Card extends Component<Props> {
           <span className="vote-badge">⭐ {movie.vote_average.toFixed(1)}</span>
         </div>
 
-        {/* Content */}
         <div className="card-content">
           <h3 className="card-title">{movie.title}</h3>
 
@@ -48,7 +46,6 @@ export class Card extends Component<Props> {
             {movie.overview || 'No description available.'}
           </p>
 
-          {/* Meta Info */}
           <div className="card-meta">
             <Calendar />
             <span className="release-year">{releaseYear}</span>
