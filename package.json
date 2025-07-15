@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix",
     "preview": "vite preview",
     "format:fix": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest"
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
