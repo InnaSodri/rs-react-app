@@ -1,2 +1,2 @@
-const a = 1;
+const a = 'hello World';
 console.log(a);
