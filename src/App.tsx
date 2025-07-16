@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import { Film } from 'lucide-react';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Search } from './components/Search';
@@ -14,6 +12,10 @@ interface Movie {
   poster_path: string | null;
   release_date: string;
   vote_average: number;
+}
+
+interface MoviesResponse {
+  results: Movie[];
 }
 
 interface State {
@@ -52,10 +54,10 @@ export class App extends Component<Record<string, never>, State> {
     try {
       const url = this.buildUrl(term);
       const response = await fetch(url);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
 
-      if (!response.ok) throw new Error('HTTP error!');
-
-      const data = await response.json();
+      const data: MoviesResponse = await response.json();
 
       if (data.results.length === 0 && term.trim()) {
         throw new Error(`No movies found for "${term}"`);
@@ -64,7 +66,8 @@ export class App extends Component<Record<string, never>, State> {
       this.setState({ movies: data.results, error: null });
     } catch (err) {
       this.setState({
-        error: err instanceof Error ? err.message : 'Unexpected error',
+        error:
+          err instanceof Error ? err.message : 'An unexpected error occurred',
         movies: [],
       });
     } finally {
@@ -84,54 +87,34 @@ export class App extends Component<Record<string, never>, State> {
     }
 
     return (
-      <div>
-        <div>
-          <a href="https://vite.dev" target="_blank" rel="noreferrer">
-            <img src={viteLogo} className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank" rel="noreferrer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
+      <ErrorBoundary>
+        <main className="app-container">
+          <header className="app-header">
+            <h1 className="app-title">
+              <Film className="film-icon" />
+              Movies Search
+            </h1>
+            <p className="app-subtitle">
+              Search for your favorite movies or browse popular titles — built
+              with React Class Components and TheMovieDB API
+            </p>
+          </header>
 
-        <h1>Vite + React</h1>
-        <div className="card">
-          <ErrorBoundary>
-            <main className="app-container">
-              <header className="app-header">
-                <h1 className="app-title">
-                  <Film className="film-icon" />
-                  Movies Search
-                </h1>
-                <p className="app-subtitle">
-                  Search for your favorite movies or browse popular titles —
-                  built with React Class Components and TheMovieDB API
-                </p>
-              </header>
+          <Search
+            onSearch={this.fetchMovies}
+            initialValue={this.state.searchTerm}
+          />
+          <Results
+            movies={this.state.movies}
+            loading={this.state.loading}
+            error={this.state.error}
+          />
 
-              <Search
-                onSearch={this.fetchMovies}
-                initialValue={this.state.searchTerm}
-              />
-              <Results
-                movies={this.state.movies}
-                loading={this.state.loading}
-                error={this.state.error}
-              />
-
-              <button className="test-error-btn" onClick={this.handleTestError}>
-                Test Error
-              </button>
-              <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-              </p>
-            </main>
-          </ErrorBoundary>
-        </div>
-        <p className="read-the-docs">
-          Click on the Vite and React logos to learn more
-        </p>
-      </div>
+          <button className="test-error-btn" onClick={this.handleTestError}>
+            Test Error
+          </button>
+        </main>
+      </ErrorBoundary>
     );
   }
 }
