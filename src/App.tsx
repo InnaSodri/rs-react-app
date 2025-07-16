@@ -53,8 +53,7 @@ export class App extends Component<Record<string, never>, State> {
       const url = this.buildUrl(term);
       const response = await fetch(url);
 
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) throw new Error('HTTP error!');
 
       const data = await response.json();
 

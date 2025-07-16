@@ -18,5 +18,5 @@
 
     "types": ["vitest", "node"]
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
